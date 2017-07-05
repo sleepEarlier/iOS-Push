@@ -241,9 +241,10 @@ iOS 10后新增了Notification Service Extension，开发者可以对推送进�
 
 `Notification Content Extension` 是一个定制化展示本地和远程通知的插件，开发者可以自定义其中展示的内容，常常会结合上面的Notification Service Extension插件和`UNNotificationCategory` 、 `UNNotificationAction` 使用做成带有交互的推送内容。
 
+ <img src="https://github.com/sleepEarlier/iOS-Push/raw/master/images/13-example.png" width = "220" height = "388" alt="Example" align=center />
 
-![Example](https://github.com/sleepEarlier/iOS-Push/raw/master/images/13-example.png)
 
+<br>
 
 整体流程为：
 
@@ -256,7 +257,10 @@ iOS 10后新增了Notification Service Extension，开发者可以对推送进�
 
 <img src="https://github.com/sleepEarlier/iOS-Push/raw/master/images/06-content.gif" width = "220" height = "388" alt="Example" align=left />
 
+
 <br>
+
+
 Demo推送内容：
 
 ```
