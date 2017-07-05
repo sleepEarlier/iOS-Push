@@ -255,7 +255,7 @@ iOS 10后新增了Notification Service Extension，开发者可以对推送进�
 
 整体效果：
 
-<img src="https://github.com/sleepEarlier/iOS-Push/raw/master/images/06-content.gif" width = "220" height = "388" alt="Example" align=left />
+<img src="https://github.com/sleepEarlier/iOS-Push/raw/master/images/06-content.gif" width = "220" height = "388" alt="Example" align=center />
 
 
 <br>
