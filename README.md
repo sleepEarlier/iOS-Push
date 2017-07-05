@@ -208,8 +208,8 @@ iOS 10后新增了Notification Service Extension，开发者可以对推送进�
 
 效果示例:
 
-
-![showImageInNotification](https://github.com/sleepEarlier/iOS-Push/raw/master/images/05-service.gif)
+ <img src="https://github.com/sleepEarlier/iOS-Push/raw/master/images/05-service.gif" width = "220" height = "388" alt="showImageInNotification" align=center />
+ 
 
 开发者总共有**30秒**的时间来对推送内容进行处理，可以在这个过程中下载图片、小视频等。如果超过时间还没有在上面方法中调用`contentHandler` ，系统会在另一个线程调用下面的方法给开发者最后调用`contentHandler` 的机会，如果在这个方法中`contentHandler`还是 没有被调用，推送会以原来的内容被展示到手机上。
 
