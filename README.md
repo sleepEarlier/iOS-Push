@@ -1,12 +1,15 @@
-# iOS-Push
+# iOS推送小结
+介绍普通推送、多媒体推送等推送的开发。<br>
+
 # 普通推送基本设置
 ### 1. 创建项目，开启远程推送功能
+
 在Cababilities中打开Push Notification开关
-![这里写图片描述](http://img.blog.csdn.net/20170524182043044?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvc2luYXRfMjU1NDQ4Mjc=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+![PushNotificationSwitch](https://github.com/sleepEarlier/iOS-Push/raw/master/images/00-pushconfig.png)
 
 ### 2. 编码
-注册通知
-```Objective-C
+注册通知<br>
+```
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_10_0
 #import <UserNotifications/UserNotifications.h>
 #endif
@@ -14,43 +17,43 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 	CGFloat sysVersion = [UIDevice currentDevice].systemVersion.floatValue;
     if (sysVersion >= 10.0) {
-        UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
-        center.delegate = self;
-        [center getNotificationSettingsWithCompletionHandler:^(UNNotificationSettings * _Nonnull settings) {
-            UNAuthorizationStatus status = settings.authorizationStatus;
-            if (status == UNAuthorizationStatusNotDetermined) {
-                UNAuthorizationOptions options = UNAuthorizationOptionBadge | UNAuthorizationOptionAlert | UNAuthorizationOptionSound;
-                [center requestAuthorizationWithOptions:options completionHandler:^(BOOL granted, NSError * _Nullable error) {
-                    if (granted) {
-                        NSLog(@"Auth suc");
-                        [application registerForRemoteNotifications];
-                    } else {
-                        NSLog(@"Auth fail:%@",error.localizedDescription);
-                    }
-                }];
-            }
-            else if (status == UNAuthorizationStatusDenied) {
-                NSLog(@"用户关闭了通知，请求用户跳转设置开启通知");
-                [application openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
-            }
-            else {
-                NSLog(@"已经开启了通知");
-                NSLog(@"Auth settings:%@",settings);
-                [application registerForRemoteNotifications];
-            }
-        }];
+	UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
+	center.delegate = self;
+	[center getNotificationSettingsWithCompletionHandler:^(UNNotificationSettings * _Nonnull settings) {
+	    UNAuthorizationStatus status = settings.authorizationStatus;
+	    if (status == UNAuthorizationStatusNotDetermined) {
+		UNAuthorizationOptions options = UNAuthorizationOptionBadge | UNAuthorizationOptionAlert | UNAuthorizationOptionSound;
+		[center requestAuthorizationWithOptions:options completionHandler:^(BOOL granted, NSError * _Nullable error) {
+		    if (granted) {
+			NSLog(@"Auth suc");
+			[application registerForRemoteNotifications];
+		    } else {
+			NSLog(@"Auth fail:%@",error.localizedDescription);
+		    }
+		}];
+	    }
+	    else if (status == UNAuthorizationStatusDenied) {
+		NSLog(@"用户关闭了通知，请求用户跳转设置开启通知");
+		[application openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
+	    }
+	    else {
+		NSLog(@"已经开启了通知");
+		NSLog(@"Auth settings:%@",settings);
+		[application registerForRemoteNotifications];
+	    }
+	}];
     }
     else if (sysVersion >= 8.0) {
-        UIUserNotificationType type = UIUserNotificationTypeAlert|UIUserNotificationTypeBadge|UIUserNotificationTypeSound;
-        UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:type categories:nil];
-        [application registerUserNotificationSettings:settings];
+	UIUserNotificationType type = UIUserNotificationTypeAlert|UIUserNotificationTypeBadge|UIUserNotificationTypeSound;
+	UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:type categories:nil];
+	[application registerUserNotificationSettings:settings];
     }
     else {
-        [application registerForRemoteNotificationTypes:UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeSound];
+	[application registerForRemoteNotificationTypes:UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeSound];
     }
-    
-    
-    
+
+
+
     return YES;
 }
 ```
@@ -63,6 +66,7 @@
 ```
 
 注册通知失败
+
 ```Objective-C
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
   // 处理注册通知失败
@@ -77,6 +81,7 @@
 ```
 
 接收通知
+
 ```Objective-C
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
  // 收到通知
@@ -94,14 +99,16 @@
 	2. `application:didReceiveRemoteNotification:` 在启动过程中不会被调用
 
 
-# 静默推送
+# 静默推送<br>
+
 有一些场景下，我们希望App在后台收到推送时，能知道收到了推送，并做出一些反应（比如UI上的变动）。这就需要开启静默推送。
 
 ### 工程配置
 在Cababilities中打开Background Modes的Remote Notifications(静默推送)，Info中会有对应的KeyValue自动添加。
-![这里写图片描述](http://img.blog.csdn.net/20170525104148705?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvc2luYXRfMjU1NDQ4Mjc=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+![BackgroundMode](https://github.com/sleepEarlier/iOS-Push/raw/master/images/01-pushconfig.png)
 
 ### 编码
+
 实现后台获取的对应方法
 
 ```
@@ -117,7 +124,7 @@
 ```
 实现了此方法，则`application:didReceiveRemoteNotification:` 不会被调用。而且这个方法在App因为通知启动或者`resumed`的时候也会被调用。
 
-###推送内容设置
+### 推送内容设置
 
 ```
 {
@@ -136,7 +143,8 @@
 完成以上，程序可以在后台通过上面的方法获取到通知的内容了。
 
 
-#前台展示推送
+# 前台展示推送
+
 以上，代码中并没有实现`UNUserNotificationCenterDelegate` 协议中的方法。当我们实现协议中`userNotificationCenter:willPresentNotification:withCompletionHandler:` 方法时，程序在前台收到推送也会展示Banner。
 
 ```
@@ -150,14 +158,17 @@
 ```
 
 # Notification Service Extension
+
 iOS 10后新增了Notification Service Extension，开发者可以对推送进行预处理，以展示更丰富的推送内容，比如附加图片，或者根据当前用户来修改推送消息等。
 
 ### 创建Notification Service Extension
+
 在工程中原开发工程中新建一个Target，选择`Notification Service Extension` ，并根据Xcode提示激活此Target。新Target的Bundle Id应该在原工程Bundle Id的命名空间下，如原工程Bundle Id为com.demo.push，新Target的Bundle Id应为com.demo.push.xxx，如com.demo.push.notificationServiceExtension
-![这里写图片描述](http://img.blog.csdn.net/20170526100943930?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvc2luYXRfMjU1NDQ4Mjc=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+![CreateServiceExtension](https://github.com/sleepEarlier/iOS-Push/raw/master/images/03-serveive%20Extension.png)
 
 完成后工程中会生成对应的文件，在.m中有两个方法:
 一是对收到的推送进行处理的方法，在这个方法中主要对`UNNotificationContent` 进行修改，最后必须调用`contentHandler` 。下面是默认的实现，只是对推送的`title` 进行了修改。
+
 ```
 - (void)didReceiveNotificationRequest:(UNNotificationRequest *)request withContentHandler:(void (^)(UNNotificationContent * _Nonnull))contentHandler{
 	// Modify the notification content here...
@@ -194,8 +205,9 @@ iOS 10后新增了Notification Service Extension，开发者可以对推送进�
 	...
 }
 ```
+
 效果示例:
-![这里写图片描述](http://img.blog.csdn.net/20170526183843642?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvc2luYXRfMjU1NDQ4Mjc=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+![showImageInNotification](https://github.com/sleepEarlier/iOS-Push/raw/master/images/05-service.gif)
 
 开发者总共有**30秒**的时间来对推送内容进行处理，可以在这个过程中下载图片、小视频等。如果超过时间还没有在上面方法中调用`contentHandler` ，系统会在另一个线程调用下面的方法给开发者最后调用`contentHandler` 的机会，如果在这个方法中`contentHandler`还是 没有被调用，推送会以原来的内容被展示到手机上。
 
@@ -208,23 +220,26 @@ iOS 10后新增了Notification Service Extension，开发者可以对推送进�
 ```
 
 
-###调试Notification Service Extension
+### 调试Notification Service Extension
+
 运行的Scheme选择新建的Service Extension，选择关联的App运行，这样断点可以在Service Extension生效。
-![这里写图片描述](http://img.blog.csdn.net/20170526104530588?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvc2luYXRfMjU1NDQ4Mjc=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+![RunServiceExtension](https://github.com/sleepEarlier/iOS-Push/raw/master/images/08--run.png)
 
-![这里写图片描述](http://img.blog.csdn.net/20170526104544635?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvc2luYXRfMjU1NDQ4Mjc=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+![RunServiceExtensionWithApp](https://github.com/sleepEarlier/iOS-Push/raw/master/images/09-RunAs.png)
 
 
-###打包
+### 打包
+
 打包时，选择App对应的Scheme即可，与正常打包流程没有差别（CI打包也无差别）。使用Xcode打包过程中可以看到Extension已经被包含在其中:
-![打包](http://img.blog.csdn.net/20170526112904825?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvc2luYXRfMjU1NDQ4Mjc=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+![Archive](https://github.com/sleepEarlier/iOS-Push/raw/master/images/10-archive.png)
 
 
-#Notification Content Extension
+# Notification Content Extension
+
 `Notification Content Extension` 是一个定制化展示本地和远程通知的插件，开发者可以自定义其中展示的内容，常常会结合上面的Notification Service Extension插件和`UNNotificationCategory` 、 `UNNotificationAction` 使用做成带有交互的推送内容。
-![这里写图片描述](http://img.blog.csdn.net/20170526171203367?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvc2luYXRfMjU1NDQ4Mjc=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+![Example](https://github.com/sleepEarlier/iOS-Push/raw/master/images/13-example.png)
 
-整理流程为：
+整体流程为：
 
  1. 注册`Notification Category` ，其中包含Action.
  2. 推送Mutable-Content的通知，在Service Extension中下载对应的多媒体消息，重新生成通知内容，并指定通知的`categoryIdentifier`。
@@ -232,31 +247,93 @@ iOS 10后新增了Notification Service Extension，开发者可以对推送进�
  4. 用户触发交互（即`UNNotificationAction`）后，在`UNUserNotificationCenter` 代理方法中进行处理。在`Notification Content Extension`中也可以进行初步处理，并决定是否将Action转发到`UNUserNotificationCenter`。
 
 整体效果：
-![这里写图片描述](http://img.blog.csdn.net/20170526174018402?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvc2luYXRfMjU1NDQ4Mjc=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+
+
+![ContentServiceExample](https://github.com/sleepEarlier/iOS-Push/raw/master/images/06-content.gif)
 
 
 ### 1. 创建Notification Content Extension
+
 新建一个Target，选择`Notification Content Extension`，其BundleId应该在原项目BundleId的命名空间下。
-![这里写图片描述](http://img.blog.csdn.net/20170526174229106?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvc2luYXRfMjU1NDQ4Mjc=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+![CreateContentExtension](https://github.com/sleepEarlier/iOS-Push/raw/master/images/04-content%20Extension.png)
 
 创建后会增加Target的文件：
-![这里写图片描述](http://img.blog.csdn.net/20170526174505459?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvc2luYXRfMjU1NDQ4Mjc=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+![ContentExtensionFiles](https://github.com/sleepEarlier/iOS-Push/raw/master/images/10-contentExtension.png)
 
 
-![这里写图片描述](http://img.blog.csdn.net/20170526181808765?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvc2luYXRfMjU1NDQ4Mjc=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
 在`.h`中可以看到其实这是一个`UIViewController`子类，我们可以添加各种视图。
 
+```
+// NotificationViewController.h
+#import <UIKit/UIKit.h>
 
-![这里写图片描述](http://img.blog.csdn.net/20170526181733733?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvc2luYXRfMjU1NDQ4Mjc=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+@interface NotificationViewController : UIViewController
+
+@end
+```
+
+
+```
+// NotificationViewController.m
+@interface NotificationViewController () <UNNotificationContentExtension>
+```
+
 在`.m`中可以看到这个控制器遵守`UNNotificationContentExtension`协议，协议中有如下方法和属性:
 
-![这里写图片描述](http://img.blog.csdn.net/20170526182117923?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvc2luYXRfMjU1NDQ4Mjc=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+```
+@protocol UNNotificationContentExtension <NSObject>
+
+// This will be called to send the notification to be displayed by
+// the extension. If the extension is being displayed and more related
+// notifications arrive (eg. more messages for the same conversation)
+// the same method will be called for each new notification.
+- (void)didReceiveNotification:(UNNotification *)notification;
+
+@optional
+
+// If implemented, the method will be called when the user taps on one
+// of the notification actions. The completion handler can be called
+// after handling the action to dismiss the notification and forward the
+// action to the app if necessary.
+- (void)didReceiveNotificationResponse:(UNNotificationResponse *)response completionHandler:(void (^)(UNNotificationContentExtensionResponseOption option))completion;
+
+// Implementing this method and returning a button type other that "None" will
+// make the notification attempt to draw a play/pause button correctly styled
+// for that type.
+@property (nonatomic, readonly, assign) UNNotificationContentExtensionMediaPlayPauseButtonType mediaPlayPauseButtonType;
+
+// Implementing this method and returning a non-empty frame will make
+// the notification draw a button that allows the user to play and pause
+// media content embedded in the notification.
+@property (nonatomic, readonly, assign) CGRect mediaPlayPauseButtonFrame;
+
+// The tint color to use for the button.
+@property (nonatomic, readonly, copy) UIColor *mediaPlayPauseButtonTintColor;
+
+// Called when the user taps the play or pause button.
+- (void)mediaPlay;
+- (void)mediaPause;
+
+@end
+
+
+@interface NSExtensionContext (UNNotificationContentExtension)
+
+// Call these methods when the playback state changes in the content
+// extension to update the state of the media control button.
+- (void)mediaPlayingStarted __IOS_AVAILABLE(10_0) __TVOS_UNAVAILABLE __WATCHOS_UNAVAILABLE __OSX_UNAVAILABLE;
+- (void)mediaPlayingPaused __IOS_AVAILABLE(10_0) __TVOS_UNAVAILABLE __WATCHOS_UNAVAILABLE __OSX_UNAVAILABLE;
+
+@end
+```
+
 
 除了Require的方法之外，`didReceiveNotificationResponse:completionHandler:`负责处理推送Action交互，而其他的用来控制视频的播放。下面的示例中会使用到。
-最下方还有一个`NSExtesnsionContext`类，暂时不清楚如果使用。
 
-Info.plist中的内容：
-![这里写图片描述](http://img.blog.csdn.net/20170526174641218?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvc2luYXRfMjU1NDQ4Mjc=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+最下方还有一个`NSExtesnsionContext`类，暂时不清楚它怎么使用。
+
+Content Extension的Info.plist中的内容：
+![Info](https://github.com/sleepEarlier/iOS-Push/raw/master/images/11-contentInfo.png)
 
 `UNNotificationExtensionDefaultContentHidden`，插件默认会展示推送的内容（Title、subtitle、body，不展示`Attachment`），通过这对键值来控制是否隐藏原始内容。
 
@@ -264,7 +341,7 @@ Info.plist中的内容：
 
 `UNNotificationExtensionInitialContentSizeRatio` , 视图的宽高比。视图的最终大小（主要是高度），会受VC的`preferredContentSize` 、sb中的约束和视图高度、这个比例3者的影响。优先级从前到后下降。
 
-###2. 编码
+### 2. 编码
 首先在申请通知权限成功后，设置通知的类别和Action
 
 ```
