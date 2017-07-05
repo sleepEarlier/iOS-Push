@@ -207,7 +207,9 @@ iOS 10后新增了Notification Service Extension，开发者可以对推送进�
 ```
 
 效果示例:
-![showImageInNotification](https://github.com/sleepEarlier/iOS-Push/raw/master/images/05-service.gif)
+
+ <img src="https://github.com/sleepEarlier/iOS-Push/raw/master/images/05-service.gif" width = "220" height = "388" alt="showImageInNotification" align=center />
+ 
 
 开发者总共有**30秒**的时间来对推送内容进行处理，可以在这个过程中下载图片、小视频等。如果超过时间还没有在上面方法中调用`contentHandler` ，系统会在另一个线程调用下面的方法给开发者最后调用`contentHandler` 的机会，如果在这个方法中`contentHandler`还是 没有被调用，推送会以原来的内容被展示到手机上。
 
@@ -231,13 +233,18 @@ iOS 10后新增了Notification Service Extension，开发者可以对推送进�
 ### 打包
 
 打包时，选择App对应的Scheme即可，与正常打包流程没有差别（CI打包也无差别）。使用Xcode打包过程中可以看到Extension已经被包含在其中:
+
 ![Archive](https://github.com/sleepEarlier/iOS-Push/raw/master/images/10-archive.png)
 
 
 # Notification Content Extension
 
 `Notification Content Extension` 是一个定制化展示本地和远程通知的插件，开发者可以自定义其中展示的内容，常常会结合上面的Notification Service Extension插件和`UNNotificationCategory` 、 `UNNotificationAction` 使用做成带有交互的推送内容。
-![Example](https://github.com/sleepEarlier/iOS-Push/raw/master/images/13-example.png)
+
+ <img src="https://github.com/sleepEarlier/iOS-Push/raw/master/images/13-example.png" width = "220" height = "388" alt="Example" align=center />
+
+
+<br>
 
 整体流程为：
 
@@ -248,9 +255,28 @@ iOS 10后新增了Notification Service Extension，开发者可以对推送进�
 
 整体效果：
 
+<img src="https://github.com/sleepEarlier/iOS-Push/raw/master/images/06-content.gif" width = "220" height = "388" alt="Example" align=center />
 
-![ContentServiceExample](https://github.com/sleepEarlier/iOS-Push/raw/master/images/06-content.gif)
 
+<br>
+
+
+Demo推送内容：
+
+```
+{
+  "aps" : {
+    "alert" : {
+      "title" : "Message",
+      "body" : "Your message Here"
+    },
+    "badge" : 1,
+    "content-available" : 1,
+    "mutable-content" : 1,
+    "catId" : "action1" // 自定义字段,
+    }
+}
+```
 
 ### 1. 创建Notification Content Extension
 
