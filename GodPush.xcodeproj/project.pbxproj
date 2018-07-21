@@ -27,6 +27,7 @@
 		DCBD61511ED5383100DEFE09 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DCBD614F1ED5383100DEFE09 /* Main.storyboard */; };
 		DCBD61531ED5383100DEFE09 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DCBD61521ED5383100DEFE09 /* Assets.xcassets */; };
 		DCBD61561ED5383100DEFE09 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DCBD61541ED5383100DEFE09 /* LaunchScreen.storyboard */; };
+		F635380B21030EF500FB22D2 /* share_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = F635380A21030EF500FB22D2 /* share_logo.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -89,6 +90,7 @@
 		DCBD61551ED5383100DEFE09 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		DCBD61571ED5383100DEFE09 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DCBD615D1ED5384500DEFE09 /* GodPush.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = GodPush.entitlements; sourceTree = "<group>"; };
+		F635380A21030EF500FB22D2 /* share_logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = share_logo.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -126,6 +128,7 @@
 				DC3EDC111ED6C1C3006AF988 /* NotificationService.m */,
 				DC3EDC131ED6C1C3006AF988 /* Info.plist */,
 				DC3EDC1A1ED6CFF1006AF988 /* emotionthumb.png */,
+				F635380A21030EF500FB22D2 /* share_logo.png */,
 			);
 			path = NotificationService;
 			sourceTree = "<group>";
@@ -320,6 +323,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F635380B21030EF500FB22D2 /* share_logo.png in Resources */,
 				DC3EDC1C1ED6CFF1006AF988 /* emotionthumb.png in Resources */,
 				DC3EDC201ED6D4C4006AF988 /* sharedImg_thumb.jpg in Resources */,
 				DC949A701ED817FD0060E50D /* WeChatSight4.mp4 in Resources */,
@@ -428,7 +432,7 @@
 				INFOPLIST_FILE = NotificationService/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = dingtalk.hack.com.NotificationService;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tt.pushtome.NotificationService;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
@@ -443,7 +447,7 @@
 				INFOPLIST_FILE = NotificationService/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = dingtalk.hack.com.NotificationService;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tt.pushtome.NotificationService;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
@@ -453,11 +457,14 @@
 		DC949A6D1ED7DD1F0060E50D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = YJC69R4V88;
 				INFOPLIST_FILE = ContentExtension/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = dingtalk.hack.com.ContentExtension;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tt.pushtome.ContentExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
 			};
 			name = Debug;
@@ -465,11 +472,14 @@
 		DC949A6E1ED7DD1F0060E50D /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = YJC69R4V88;
 				INFOPLIST_FILE = ContentExtension/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = dingtalk.hack.com.ContentExtension;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tt.pushtome.ContentExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
 			};
 			name = Release;
@@ -571,15 +581,17 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = GodPush/GodPush.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = YJC69R4V88;
 				INFOPLIST_FILE = GodPush/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = dingtalk.hack.com;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tt.pushtome;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "8ce1a785-e8fb-41eb-b5ac-0a3fa54688ba";
-				PROVISIONING_PROFILE_SPECIFIER = DingTalk_dev;
+				PROVISIONING_PROFILE = "d4de11bf-d5d6-49b8-a26a-8b49eac3c22b";
+				PROVISIONING_PROFILE_SPECIFIER = com.tt.pushtome;
 			};
 			name = Debug;
 		};
@@ -588,15 +600,17 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = GodPush/GodPush.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = YJC69R4V88;
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = GodPush/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = dingtalk.hack.com;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tt.pushtome;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "8ce1a785-e8fb-41eb-b5ac-0a3fa54688ba";
-				PROVISIONING_PROFILE_SPECIFIER = DingTalk_dev;
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Release;
 		};

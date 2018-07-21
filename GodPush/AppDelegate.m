@@ -32,28 +32,21 @@
     
     
     CGFloat sysVersion = [UIDevice currentDevice].systemVersion.floatValue;
-    if (sysVersion >= 10.0) {
+    
+    if (@available(iOS 10.0, *)){
         UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
         center.delegate = self;
-        [center removeAllDeliveredNotifications];
         [center getNotificationSettingsWithCompletionHandler:^(UNNotificationSettings * _Nonnull settings) {
             UNAuthorizationStatus status = settings.authorizationStatus;
             if (status == UNAuthorizationStatusNotDetermined) {
+                /// 请求推送权限
                 UNAuthorizationOptions options = UNAuthorizationOptionBadge | UNAuthorizationOptionAlert | UNAuthorizationOptionSound;
                 [center requestAuthorizationWithOptions:options completionHandler:^(BOOL granted, NSError * _Nullable error) {
                     if (granted) {
                         NSLog(@"Auth suc");
-                        UNNotificationAction *action1 = [UNNotificationAction actionWithIdentifier:@"checkoutAction" title:@"查看" options:UNNotificationActionOptionAuthenticationRequired|UNNotificationActionOptionForeground];
-                        UNTextInputNotificationAction *action2 = [UNTextInputNotificationAction actionWithIdentifier:@"replyAction" title:@"回复" options:0 textInputButtonTitle:@"发送" textInputPlaceholder:@"回复消息"];
-                        
-                        UNNotificationCategory *cat = [UNNotificationCategory categoryWithIdentifier:@"action1" actions:@[action1,action2] intentIdentifiers:@[] options:UNNotificationCategoryOptionNone];
-                        
-                        [center setNotificationCategories:[NSSet setWithObjects:cat, nil]];
-                        
-                        [center getNotificationCategoriesWithCompletionHandler:^(NSSet<UNNotificationCategory *> * _Nonnull categories) {
-                            NSLog(@"get categories:%@",categories);
-                        }];
-                        [application registerForRemoteNotifications];
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            [application registerForRemoteNotifications];
+                        });
                     } else {
                         NSLog(@"Auth fail:%@",error.localizedDescription);
                     }
@@ -66,33 +59,20 @@
             else {
                 NSLog(@"已经开启了通知");
                 NSLog(@"Auth settings:%@",settings);
-                UNNotificationAction *action1 = [UNNotificationAction actionWithIdentifier:@"checkoutAction" title:@"查看" options:UNNotificationActionOptionAuthenticationRequired|UNNotificationActionOptionForeground];
-                UNTextInputNotificationAction *action2 = [UNTextInputNotificationAction actionWithIdentifier:@"replyAction" title:@"回复" options:0 textInputButtonTitle:@"发送" textInputPlaceholder:@"回复消息"];
-                
-                UNNotificationCategory *cat = [UNNotificationCategory categoryWithIdentifier:@"action1" actions:@[action1,action2] intentIdentifiers:@[] options:UNNotificationCategoryOptionNone];
-                
-                [center setNotificationCategories:[NSSet setWithObjects:cat, nil]];
-                
-                [center getNotificationCategoriesWithCompletionHandler:^(NSSet<UNNotificationCategory *> * _Nonnull categories) {
-                    NSLog(@"get cat:%@",categories);
-                }];
-                [application registerForRemoteNotifications];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [application registerForRemoteNotifications];
+                });
             }
             
         }];
         
         
     }
-    else if (sysVersion >= 8.0) {
+    else {
         UIUserNotificationType type = UIUserNotificationTypeAlert|UIUserNotificationTypeBadge|UIUserNotificationTypeSound;
         UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:type categories:nil];
         [application registerUserNotificationSettings:settings];
     }
-    else {
-        [application registerForRemoteNotificationTypes:UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeSound];
-    }
-    
-    
     
     return YES;
 }
@@ -110,8 +90,11 @@
     if ((type & UIUserNotificationTypeAlert) == UIUserNotificationTypeAlert) {
         NSLog(@"UIUserNotificationTypeAlert");
     }
+    /*
+     application:didRegisterForRemoteNotificationsWithDeviceToken:
+     application:didFailToRegisterForRemoteNotificationsWithError:
+     */
     [application registerForRemoteNotifications];
-//    [application unregisterForRemoteNotifications];
 }
 
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
@@ -143,7 +126,7 @@
     NSLog(@"local noti:%@",notification.alertBody);
 }
 
-// 实现此方法，在前台推送也会展示
+// 实现此方法，可以控制App在前台时推送如何展示
 -(void)userNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions))completionHandler {
     completionHandler(UNNotificationPresentationOptionBadge|UNNotificationPresentationOptionSound|UNNotificationPresentationOptionAlert);
 }
