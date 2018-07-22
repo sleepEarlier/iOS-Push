@@ -24,8 +24,6 @@
     
     // Modify the notification content here...
     self.bestAttemptContent.title = [NSString stringWithFormat:@"%@ [modified]", self.bestAttemptContent.title];
-//    self.bestAttemptContent.title = request.content.title;
-//    self.bestAttemptContent.subtitle = @"点击查看";
     self.bestAttemptContent.body = request.content.body;
     NSURL *url = [[NSBundle mainBundle] URLForResource:@"WeChatSight4" withExtension:@"mp4"];
     NSError *error = nil;
@@ -35,14 +33,14 @@
     UNNotificationAttachment *atm = [UNNotificationAttachment attachmentWithIdentifier:@"" URL:url options:options error:&error];
     
     if (error) {
-        NSLog(@"error:%@",error.localizedDescription);
+        self.bestAttemptContent.title = error.localizedFailureReason;
+    } else {
+        self.bestAttemptContent.attachments = @[atm];
     }
-    self.bestAttemptContent.attachments = @[atm];
     
     self.bestAttemptContent.categoryIdentifier = request.content.userInfo[@"aps"][@"catId"];
     NSLog(@"UserInfo:%@",request.content.userInfo);
     NSLog(@"categoryIdentifier:%@",self.bestAttemptContent.categoryIdentifier);
-//    self.bestAttemptContent.launchImageName = @"emotionthumb.png";
     
     self.contentHandler(self.bestAttemptContent);
 }
