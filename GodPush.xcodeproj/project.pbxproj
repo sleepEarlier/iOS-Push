@@ -428,7 +428,7 @@
 				INFOPLIST_FILE = NotificationService/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = dingtalk.hack.com.NotificationService;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tt.pushtome.NotificationService;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
@@ -443,7 +443,7 @@
 				INFOPLIST_FILE = NotificationService/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = dingtalk.hack.com.NotificationService;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tt.pushtome.NotificationService;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
@@ -456,7 +456,7 @@
 				DEVELOPMENT_TEAM = YJC69R4V88;
 				INFOPLIST_FILE = ContentExtension/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = dingtalk.hack.com.ContentExtension;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tt.pushtome.ContentExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 			};
@@ -468,7 +468,7 @@
 				DEVELOPMENT_TEAM = YJC69R4V88;
 				INFOPLIST_FILE = ContentExtension/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = dingtalk.hack.com.ContentExtension;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tt.pushtome.ContentExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 			};
@@ -576,10 +576,10 @@
 				INFOPLIST_FILE = GodPush/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = dingtalk.hack.com;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tt.pushtome;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "8ce1a785-e8fb-41eb-b5ac-0a3fa54688ba";
-				PROVISIONING_PROFILE_SPECIFIER = DingTalk_dev;
+				PROVISIONING_PROFILE = "d4de11bf-d5d6-49b8-a26a-8b49eac3c22b";
+				PROVISIONING_PROFILE_SPECIFIER = com.tt.pushtome;
 			};
 			name = Debug;
 		};
@@ -593,7 +593,7 @@
 				INFOPLIST_FILE = GodPush/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = dingtalk.hack.com;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tt.pushtome;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "8ce1a785-e8fb-41eb-b5ac-0a3fa54688ba";
 				PROVISIONING_PROFILE_SPECIFIER = DingTalk_dev;
