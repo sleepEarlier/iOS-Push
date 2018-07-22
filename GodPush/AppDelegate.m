@@ -13,6 +13,8 @@
 #import <UserNotifications/UserNotifications.h>
 #endif
 
+typedef void(^DownLoadComplete)(NSURL *fileURL);
+
 @interface AppDelegate ()<UNUserNotificationCenterDelegate>
 @property (nonatomic, weak) ViewController *controller;
 @end
@@ -29,9 +31,6 @@
                            };
     [vc showJson:json];
     NSLog(@"launchOp:%@",launchOptions);
-    
-    
-    CGFloat sysVersion = [UIDevice currentDevice].systemVersion.floatValue;
     
     if (@available(iOS 10.0, *)){
         UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
@@ -73,7 +72,6 @@
         UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:type categories:nil];
         [application registerUserNotificationSettings:settings];
     }
-    
     return YES;
 }
 
