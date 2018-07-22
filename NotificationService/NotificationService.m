@@ -9,6 +9,7 @@
 #import "NotificationService.h"
 #import <UIKit/UIKit.h>
 #import<MobileCoreServices/MobileCoreServices.h>
+#import <AVFoundation/AVFoundation.h>
 
 typedef void(^DownLoadComplete)(NSURL *fileURL);
 
@@ -27,13 +28,15 @@ typedef void(^DownLoadComplete)(NSURL *fileURL);
     self.bestAttemptContent = [request.content mutableCopy];
     
     // Modify the notification content here...
-    self.bestAttemptContent.title = [NSString stringWithFormat:@"%@ [modified]", self.bestAttemptContent.title];
-    self.bestAttemptContent.body = request.content.body;
-    
-    NSString *imagePath = @"http://iobs.pingan.com.cn/download/szsc-smt-app-dmz-prd/3a569cfc-4ad2-4c8d-afda-e8c081fffcc2_1527225669710";
-    [self downLoadImageFromURLPath:imagePath complete:^(NSURL *fileURL) {
-        [self setupAttachmentWithFileURL:fileURL];
-    }];
+    self.bestAttemptContent.title = [NSString stringWithFormat:@"支付宝到账两千元"];
+    AVSpeechSynthesizer *speechSynthesizer = [[AVSpeechSynthesizer alloc]init];
+    AVSpeechUtterance *utterance = [AVSpeechUtterance speechUtteranceWithString:self.bestAttemptContent.title];
+    AVSpeechSynthesisVoice *voice = [AVSpeechSynthesisVoice voiceWithLanguage:@"zh-CN"];
+    utterance.voice = voice;
+    utterance.rate =  AVSpeechUtteranceDefaultSpeechRate;
+    utterance.volume = 1.0;
+    [speechSynthesizer speakUtterance:utterance];
+    self.contentHandler(self.bestAttemptContent);
 }
 
 - (void)setupAttachmentWithFileURL:(NSURL *)fileURL {
